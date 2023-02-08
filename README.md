@@ -1,5 +1,4 @@
-# dhir_app
-
+# Tigaad App
 A new Flutter project.
 
 ## Getting Started
