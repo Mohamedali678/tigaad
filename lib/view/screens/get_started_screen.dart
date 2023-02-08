@@ -12,7 +12,7 @@ class GetStartedScreen extends StatelessWidget {
           child: Column(
             children: [
               Container(
-                height: 500,
+                height: 465,
                 width: double.infinity,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.only(
