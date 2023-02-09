@@ -1,4 +1,6 @@
 import 'package:dhir_app/model/data.dart';
+import 'package:dhir_app/view/screens/dhirta_banaanka_screen.dart';
+import 'package:dhir_app/view/screens/shirta_guryaha_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -11,7 +13,7 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 229, 225, 225),
+      backgroundColor: Color.fromARGB(255, 245, 241, 241),
       appBar: AppBar(
         backgroundColor: Color(0xffF6F6F6),
         actions: [
@@ -49,41 +51,61 @@ class HomeScreen extends StatelessWidget {
           ),
           Row(
             children: [
-              Container(
-                margin: EdgeInsets.all(12),
-                height: 90,
-                width: 90,
-                decoration: BoxDecoration(
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey,
-                      blurRadius: 3,
-                      offset: Offset(2, 5),
-                    )
-                  ],
-                  borderRadius: BorderRadius.circular(8),
-                  image: DecorationImage(
-                    fit: BoxFit.cover,
-                    image: AssetImage("assets/images/home1.png"),
+              InkWell(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => DhirtaGuryahaScreen(),
+                    ),
+                  );
+                },
+                child: Container(
+                  margin: EdgeInsets.all(12),
+                  height: 90,
+                  width: 90,
+                  decoration: BoxDecoration(
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey,
+                        blurRadius: 3,
+                        offset: Offset(2, 5),
+                      )
+                    ],
+                    borderRadius: BorderRadius.circular(8),
+                    image: DecorationImage(
+                      fit: BoxFit.cover,
+                      image: AssetImage("assets/images/home1.png"),
+                    ),
                   ),
                 ),
               ),
-              Container(
-                margin: EdgeInsets.all(12),
-                height: 90,
-                width: 90,
-                decoration: BoxDecoration(
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey,
-                      blurRadius: 3,
-                      offset: Offset(2, 5),
-                    )
-                  ],
-                  borderRadius: BorderRadius.circular(8),
-                  image: DecorationImage(
-                    fit: BoxFit.cover,
-                    image: AssetImage("assets/images/home2.png"),
+              InkWell(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => DhirtaBanaankaScreen(),
+                    ),
+                  );
+                },
+                child: Container(
+                  margin: EdgeInsets.all(12),
+                  height: 90,
+                  width: 90,
+                  decoration: BoxDecoration(
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey,
+                        blurRadius: 3,
+                        offset: Offset(2, 5),
+                      )
+                    ],
+                    borderRadius: BorderRadius.circular(8),
+                    image: DecorationImage(
+                      fit: BoxFit.cover,
+                      image: AssetImage("assets/images/home2.png"),
+                    ),
                   ),
                 ),
               ),
@@ -109,6 +131,12 @@ class HomeScreen extends StatelessWidget {
               itemBuilder: (context, index) {
                 return Container(
                   decoration: BoxDecoration(
+                    boxShadow: [
+                      BoxShadow(
+                          color: Colors.grey,
+                          blurRadius: 4,
+                          offset: Offset(4, 4)),
+                    ],
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(10),
                   ),
