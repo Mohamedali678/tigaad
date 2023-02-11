@@ -1,6 +1,7 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dhir_app/model/data.dart';
 import 'package:dhir_app/view/screens/dhirta_banaanka_screen.dart';
-import 'package:dhir_app/view/screens/shirta_guryaha_screen.dart';
+import 'package:dhir_app/view/screens/dhirta_guryaha_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -9,6 +10,7 @@ class HomeScreen extends StatelessWidget {
   // const HomeScreen({super.key});
 
   final object = Data();
+  List images = ["forest.jpg", "favorite1.png", "favorite2.png"];
 
   @override
   Widget build(BuildContext context) {
@@ -30,14 +32,24 @@ class HomeScreen extends StatelessWidget {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(8),
-              color: Color(0xffD9D9D9),
-            ),
-            margin: EdgeInsets.all(12),
-            height: 180,
-          ),
+          CarouselSlider(
+            options: CarouselOptions(height: 180.0, autoPlay: true),
+            items: images.map((image) {
+              return Builder(
+                builder: (BuildContext context) {
+                  return Image.asset("assets/images/${image}");
+                },
+              );
+            }).toList(),
+          ), // Container(
+          //   decoration: BoxDecoration(
+          //     borderRadius: BorderRadius.circular(8),
+          //     color: Color(0xffD9D9D9),
+          //   ),
+          //   margin: EdgeInsets.all(12),
+          //   height: 180,
+          // ),
+
           Padding(
             padding: const EdgeInsets.all(12.0),
             child: Text(
@@ -126,6 +138,7 @@ class HomeScreen extends StatelessWidget {
             child: GridView.builder(
               itemCount: object.getAllData.length,
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                childAspectRatio: 0.8,
                 crossAxisCount: 2,
               ),
               itemBuilder: (context, index) {
@@ -160,8 +173,11 @@ class HomeScreen extends StatelessWidget {
                         object.getAllData[index].name,
                         style: TextStyle(fontSize: 18),
                       ),
+                      SizedBox(
+                        height: 13,
+                      ),
                       Text(
-                        object.getAllData[index].price.toString(),
+                        "\$${object.getAllData[index].price.toString()}",
                         style: TextStyle(
                           fontSize: 18,
                           color: Color.fromARGB(255, 45, 102, 47),
@@ -173,6 +189,9 @@ class HomeScreen extends StatelessWidget {
                 );
               },
             ),
+          ),
+          SizedBox(
+            height: 50,
           )
         ],
       ),

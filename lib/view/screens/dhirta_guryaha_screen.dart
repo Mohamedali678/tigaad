@@ -35,6 +35,7 @@ class DhirtaGuryahaScreen extends StatelessWidget {
       body: GridView.builder(
         itemCount: object.getAllData.length,
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          childAspectRatio: 0.8,
           crossAxisCount: 2,
         ),
         padding: EdgeInsets.only(top: 30),
@@ -71,8 +72,11 @@ class DhirtaGuryahaScreen extends StatelessWidget {
                   object.getAllData[index].name,
                   style: TextStyle(fontSize: 18),
                 ),
+                SizedBox(
+                  height: 15,
+                ),
                 Text(
-                  object.getAllData[index].price.toString(),
+                  "\$${object.getAllData[index].price.toString()}",
                   style: TextStyle(
                     fontSize: 18,
                     color: Color.fromARGB(255, 45, 102, 47),

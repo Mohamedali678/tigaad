@@ -1,4 +1,6 @@
+import 'package:dhir_app/profile_screen.dart';
 import 'package:dhir_app/view/screens/donate_screen.dart';
+import 'package:dhir_app/view/screens/form_screen.dart';
 import 'package:dhir_app/view/screens/home_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -12,8 +14,8 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
   final List<Widget> screens = [
     HomeScreen(),
     DonateScreen(),
-    Text("Screen Three"),
-    Text("Screen Four"),
+    FormScreen(),
+    ProfileScreen(),
   ];
 
   int indexScreen = 0;
@@ -22,8 +24,8 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       bottomSheet: BottomNavigationBar(
+        currentIndex: indexScreen,
         selectedItemColor: Colors.green,
-        showSelectedLabels: true,
         unselectedItemColor: Colors.grey,
         onTap: (value) {
           setState(() {
