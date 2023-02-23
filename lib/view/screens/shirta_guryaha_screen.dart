@@ -1,4 +1,5 @@
 import 'package:dhir_app/model/data.dart';
+import 'package:dhir_app/view/screens/cart_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -23,7 +24,14 @@ class DhirtaGuryahaScreen extends StatelessWidget {
         backgroundColor: Color(0xffF6F6F6),
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => CartScreen(),
+                ),
+              );
+            },
             icon: Icon(
               Icons.shopping_cart,
               size: 40,

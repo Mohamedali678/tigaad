@@ -1,4 +1,5 @@
 import 'package:dhir_app/model/data.dart';
+import 'package:dhir_app/view/screens/cart_screen.dart';
 import 'package:dhir_app/view/screens/dhirta_banaanka_screen.dart';
 import 'package:dhir_app/view/screens/shirta_guryaha_screen.dart';
 import 'package:flutter/material.dart';
@@ -18,7 +19,14 @@ class HomeScreen extends StatelessWidget {
         backgroundColor: Color(0xffF6F6F6),
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => CartScreen(),
+                ),
+              );
+            },
             icon: Icon(
               Icons.shopping_cart,
               size: 40,
@@ -128,6 +136,7 @@ class HomeScreen extends StatelessWidget {
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
               ),
+              padding: EdgeInsets.only(bottom: 60),
               itemBuilder: (context, index) {
                 return Container(
                   decoration: BoxDecoration(
