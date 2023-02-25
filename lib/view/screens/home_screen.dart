@@ -1,11 +1,12 @@
-import 'package:carousel_slider/carousel_slider.dart';
+// import 'package:carousel_slider/carousel_slider.dart';
+import 'package:dhir_app/controller/provider_data.dart';
 import 'package:dhir_app/model/data.dart';
 import 'package:dhir_app/view/screens/cart_screen.dart';
 import 'package:dhir_app/view/screens/dhirta_banaanka_screen.dart';
 import 'package:dhir_app/view/screens/dhirta_guryaha_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
+
+import 'package:provider/provider.dart';
 
 class HomeScreen extends StatelessWidget {
   // const HomeScreen({super.key});
@@ -20,6 +21,13 @@ class HomeScreen extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Color(0xffF6F6F6),
         actions: [
+          Padding(
+            padding: const EdgeInsets.only(top: 12.0),
+            child: Text(
+              "(${Provider.of<ProviderData>(context).getCartItems.length})",
+              style: TextStyle(color: Colors.black, fontSize: 26),
+            ),
+          ),
           IconButton(
             onPressed: () {
               Navigator.push(
@@ -34,22 +42,23 @@ class HomeScreen extends StatelessWidget {
               size: 40,
               color: Color.fromARGB(255, 44, 91, 46),
             ),
-          )
+          ),
         ],
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          CarouselSlider(
-            options: CarouselOptions(height: 180.0, autoPlay: true),
-            items: images.map((image) {
-              return Builder(
-                builder: (BuildContext context) {
-                  return Image.asset("assets/images/${image}");
-                },
-              );
-            }).toList(),
-          ), // Container(
+          // CarouselSlider(
+          //   options: CarouselOptions(
+          //     height: 180.0, autoPlay: true),
+          //   items: images.map((image) {
+          //     return Builder(
+          //       builder: (BuildContext context) {
+          //         return Image.asset("assets/images/${image}");
+          //       },
+          //     );
+          //   }).toList(),
+          // ), // Container(
           //   decoration: BoxDecoration(
           //     borderRadius: BorderRadius.circular(8),
           //     color: Color(0xffD9D9D9),
@@ -185,13 +194,32 @@ class HomeScreen extends StatelessWidget {
                       SizedBox(
                         height: 13,
                       ),
-                      Text(
-                        "\$${object.getAllData[index].price.toString()}",
-                        style: TextStyle(
-                          fontSize: 18,
-                          color: Color.fromARGB(255, 45, 102, 47),
-                          fontWeight: FontWeight.bold,
-                        ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            "\$${object.getAllData[index].price.toString()}",
+                            style: TextStyle(
+                              fontSize: 18,
+                              color: Color.fromARGB(255, 45, 102, 47),
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          IconButton(
+                              onPressed: () {
+                                Provider.of<ProviderData>(context,
+                                        listen: false)
+                                    .addToCart(
+                                        object.getAllData[index].imageUrl,
+                                        object.getAllData[index].name,
+                                        object.getAllData[index].price);
+                              },
+                              icon: Icon(
+                                Icons.shopping_cart,
+                                size: 40,
+                                color: Color.fromARGB(255, 37, 76, 38),
+                              ))
+                        ],
                       ),
                     ],
                   ),

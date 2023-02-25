@@ -1,6 +1,6 @@
-import 'package:dhir_app/model/data_brain.dart';
+import 'package:dhir_app/controller/provider_data.dart';
 import 'package:flutter/material.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:provider/provider.dart';
 
 class CartScreen extends StatefulWidget {
   const CartScreen({super.key});
@@ -10,13 +10,12 @@ class CartScreen extends StatefulWidget {
 }
 
 class _CartScreenState extends State<CartScreen> {
-  List<DataBrain> cartItems = [
-    DataBrain("assets/images/favorite2.png", "Song of india", 4),
-    DataBrain("assets/images/favorite4.png", "Banana plant", 5),
-    DataBrain("assets/images/favorite5.png", "Devil's Ivy", 9),
-  ];
+  int incrementPrice = 1;
+  int decrementPrice = 1;
 
-  int price = 1;
+  double totalPrice = 0;
+
+  double money = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +33,7 @@ class _CartScreenState extends State<CartScreen> {
         minWidth: double.infinity,
         color: Colors.green,
         child: Text(
-          "HADDA IIBSO",
+          "${totalPrice + money}  HADDA IIBSO",
           style: TextStyle(
             fontSize: 30,
             color: Colors.white,
@@ -52,13 +51,18 @@ class _CartScreenState extends State<CartScreen> {
         ),
       ),
       body: ListView.builder(
-          itemCount: cartItems.length,
+          itemCount: Provider.of<ProviderData>(context).getCartItems.length,
           itemBuilder: (context, index) {
+            final data = Provider.of<ProviderData>(context).getCartItems;
+            money =
+                Provider.of<ProviderData>(context).getCartItems[index].price;
+
             return Container(
               color: Colors.white,
               margin: EdgeInsets.all(12),
               height: 100,
               child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Container(
                     height: 100,
@@ -68,24 +72,25 @@ class _CartScreenState extends State<CartScreen> {
                       image: DecorationImage(
                         fit: BoxFit.fill,
                         image: AssetImage(
-                          cartItems[index].imageUrl,
+                          data[index].imageUrl,
                         ),
                       ),
                     ),
                   ),
-                  SizedBox(
-                    width: 40,
-                  ),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        cartItems[index].name,
+                        data[index].name,
                         style: TextStyle(
                             fontSize: 20, fontWeight: FontWeight.w600),
                       ),
+                      SizedBox(
+                        height: 10,
+                      ),
                       Text(
-                        "${cartItems[1].price * price}",
+                        "${data[index].price * decrementPrice}",
                         style: TextStyle(
                           fontSize: 18,
                           color: Color.fromARGB(255, 45, 102, 47),
@@ -100,8 +105,8 @@ class _CartScreenState extends State<CartScreen> {
                           InkWell(
                             onTap: () {
                               setState(() {
-                                if (price > 1) {
-                                  price--;
+                                if (decrementPrice > 1) {
+                                  decrementPrice--;
                                 }
                               });
                             },
@@ -125,7 +130,7 @@ class _CartScreenState extends State<CartScreen> {
                             width: 20,
                           ),
                           Text(
-                            "$price",
+                            "$incrementPrice",
                             style: TextStyle(fontSize: 20),
                           ),
                           SizedBox(
@@ -134,7 +139,7 @@ class _CartScreenState extends State<CartScreen> {
                           InkWell(
                             onTap: () {
                               setState(() {
-                                price++;
+                                incrementPrice++;
                               });
                             },
                             child: Container(
@@ -156,6 +161,20 @@ class _CartScreenState extends State<CartScreen> {
                         ],
                       )
                     ],
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: IconButton(
+                      onPressed: () {
+                        Provider.of<ProviderData>(context, listen: false)
+                            .removeItem(data[index].imageUrl, data[index].name,
+                                data[index].price);
+                      },
+                      icon: Icon(
+                        Icons.close,
+                        size: 24,
+                      ),
+                    ),
                   ),
                 ],
               ),
