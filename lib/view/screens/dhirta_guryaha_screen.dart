@@ -1,7 +1,11 @@
 import 'package:dhir_app/model/data.dart';
+import 'package:dhir_app/view/screens/cart_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:provider/provider.dart';
+
+import '../../controller/provider_data.dart';
 
 class DhirtaGuryahaScreen extends StatelessWidget {
   // const DhirtaGuryahaScreen({super.key});
@@ -22,8 +26,22 @@ class DhirtaGuryahaScreen extends StatelessWidget {
         ),
         backgroundColor: Color(0xffF6F6F6),
         actions: [
+          Padding(
+            padding: const EdgeInsets.only(top: 12.0),
+            child: Text(
+              "(${Provider.of<ProviderData>(context).getCartItems.length})",
+              style: TextStyle(color: Colors.black, fontSize: 22),
+            ),
+          ),
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => CartScreen(),
+                ),
+              );
+            },
             icon: Icon(
               Icons.shopping_cart,
               size: 40,
@@ -75,13 +93,32 @@ class DhirtaGuryahaScreen extends StatelessWidget {
                 SizedBox(
                   height: 15,
                 ),
-                Text(
-                  "\$${object.getAllData[index].price.toString()}",
-                  style: TextStyle(
-                    fontSize: 18,
-                    color: Color.fromARGB(255, 45, 102, 47),
-                    fontWeight: FontWeight.bold,
-                  ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "\$${object.getAllData[index].price.toString()}",
+                      style: TextStyle(
+                        fontSize: 18,
+                        color: Color.fromARGB(255, 45, 102, 47),
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    IconButton(
+                      onPressed: () {
+                        Provider.of<ProviderData>(context, listen: false)
+                            .addToCart(
+                                object.getAllData[index].imageUrl,
+                                object.getAllData[index].name,
+                                object.getAllData[index].price);
+                      },
+                      icon: Icon(
+                        Icons.shopping_cart,
+                        size: 30,
+                        color: Color.fromARGB(255, 37, 76, 38),
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),
