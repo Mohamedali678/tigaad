@@ -48,7 +48,9 @@ class _LoginScreenState extends State<LoginScreen> {
               await FirebaseAuth.instance.signInWithCredential(credential);
 
           Navigator.push(
-              context, MaterialPageRoute(builder: (context) => HomeScreen()));
+              context,
+              MaterialPageRoute(
+                  builder: (context) => BottomNavigationScreen()));
         }
       },
       codeAutoRetrievalTimeout: (String verificationId) {},
