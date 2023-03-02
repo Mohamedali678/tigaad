@@ -5,6 +5,7 @@ import 'package:dhir_app/view/screens/donate_screen.dart';
 import 'package:dhir_app/view/screens/get_started_screen.dart';
 import 'package:dhir_app/view/screens/home_screen.dart';
 import 'package:dhir_app/view/screens/login_screen.dart';
+import 'package:dhir_app/view/screens/register_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -21,7 +22,7 @@ void main() async {
     child: MaterialApp(
       theme: ThemeData(primarySwatch: Colors.green),
       debugShowCheckedModeBanner: false,
-      home: LoginScreen(),
+      home: RegisterScreen(),
     ),
   ));
 }

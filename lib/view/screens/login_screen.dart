@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dhir_app/view/screens/forget_password_screen.dart';
 import 'package:dhir_app/view/screens/home_screen.dart';
 import 'package:dhir_app/view/screens/register_screen.dart';
@@ -21,40 +22,53 @@ class _LoginScreenState extends State<LoginScreen> {
   TextEditingController _smsCodeController = TextEditingController();
   String smsCode = '';
   String verificationId = "";
+  var _instance = FirebaseFirestore.instance;
 
   void sendSMS(String phonenumber) async {
-    await FirebaseAuth.instance.verifyPhoneNumber(
-      phoneNumber: phonenumber,
-      verificationCompleted: (PhoneAuthCredential credential) {},
-      verificationFailed: (FirebaseAuthException e) {
-        if (e.code == 'invalid-phone-number') {
-          const snackBar1 = SnackBar(content: Text("Number-ka waa khalad."));
+    // Future<bool> userExists(String username) async =>
+    //     (await _instance.collection("users").where("username", isEqualTo: username).getDocuments()).documents.length > 0;
+    Future<bool> userExists(String phoneNumber) async => (await _instance
+        .collection("Users")
+        .where("phoneNumber", isEqualTo: _phoneNumberController.text)
+        .get()
+        .then((value) => value.size > 0 ? true : false));
 
-          ScaffoldMessenger.of(context).showSnackBar(snackBar1);
-        }
-      },
-      codeSent: (String verificationId, int? resendToken) async {
-        final smsCode = await getSmsCodeFromUser(context);
+    if (!(await userExists(_phoneNumberController.text))) {
+      await FirebaseAuth.instance.verifyPhoneNumber(
+        phoneNumber: phonenumber,
+        verificationCompleted: (PhoneAuthCredential credential) {},
+        verificationFailed: (FirebaseAuthException e) {
+          if (e.code == 'invalid-phone-number') {
+            const snackBar1 = SnackBar(content: Text("Number-ka waa khalad."));
 
-        if (smsCode != null) {
-          // Create a PhoneAuthCredential with the code
-          final credential = PhoneAuthProvider.credential(
-            verificationId: verificationId,
-            smsCode: smsCode,
-          );
+            ScaffoldMessenger.of(context).showSnackBar(snackBar1);
+          }
+        },
+        codeSent: (String verificationId, int? resendToken) async {
+          final smsCode = await getSmsCodeFromUser(context);
 
-          // Sign the user in (or link) with the credential
-          final result =
-              await FirebaseAuth.instance.signInWithCredential(credential);
+          if (smsCode != null) {
+            // Create a PhoneAuthCredential with the code
+            final credential = PhoneAuthProvider.credential(
+              verificationId: verificationId,
+              smsCode: smsCode,
+            );
 
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => BottomNavigationScreen()));
-        }
-      },
-      codeAutoRetrievalTimeout: (String verificationId) {},
-    );
+            // Sign the user in (or link) with the credential
+            final result =
+                await FirebaseAuth.instance.signInWithCredential(credential);
+
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => BottomNavigationScreen()));
+          }
+        },
+        codeAutoRetrievalTimeout: (String verificationId) {},
+      );
+    } else {
+      print("numberka wuu jiraa");
+    }
   }
 
   // Check sms fucntion: TODO
