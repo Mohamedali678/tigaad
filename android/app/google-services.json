@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "139217094496",
+    "project_id": "tigaad-9957b",
+    "storage_bucket": "tigaad-9957b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:139217094496:android:d5f2361226d54212ce8005",
+        "android_client_info": {
+          "package_name": "com.example.dhir_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "139217094496-vr77uu5dtt05gq8pbcch6u8bo9mpacv2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBTdxJ22oLSiJ3bXnug44GCYb-KLcLw94g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "139217094496-vr77uu5dtt05gq8pbcch6u8bo9mpacv2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

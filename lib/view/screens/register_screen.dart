@@ -1,9 +1,24 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dhir_app/view/screens/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
-class RegisterScreen extends StatelessWidget {
+class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
+
+  @override
+  State<RegisterScreen> createState() => _RegisterScreenState();
+}
+
+class _RegisterScreenState extends State<RegisterScreen> {
+  FirebaseAuth auth = FirebaseAuth.instance;
+
+  TextEditingController nameController = TextEditingController();
+  TextEditingController phoneNumberController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -18,15 +33,17 @@ class RegisterScreen extends StatelessWidget {
             SizedBox(
               height: 30,
             ),
-            Image(
-              image: AssetImage("images/logo.png"),
-            ),
-            SizedBox(
-              height: 30,
-            ),
+            // Image(
+            //   image: AssetImage("assets/images/tree.jpg"),
+            // ),
+            // SizedBox(
+            //   height: 30,
+            // ),
             Padding(
               padding: const EdgeInsets.all(12.0),
               child: TextField(
+                keyboardType: TextInputType.name,
+                controller: nameController,
                 decoration: InputDecoration(
                     prefixIcon: Icon(
                       Icons.person,
@@ -40,9 +57,12 @@ class RegisterScreen extends StatelessWidget {
                         borderRadius: BorderRadius.circular(8))),
               ),
             ),
+
             Padding(
               padding: const EdgeInsets.all(12.0),
               child: TextField(
+                keyboardType: TextInputType.emailAddress,
+                controller: emailController,
                 decoration: InputDecoration(
                     prefixIcon: Icon(
                       Icons.email,
@@ -59,10 +79,11 @@ class RegisterScreen extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(12.0),
               child: TextField(
+                keyboardType: TextInputType.number,
+                controller: phoneNumberController,
                 decoration: InputDecoration(
                     prefixIcon: Icon(
                       Icons.flag,
-                      color: Colors.blue,
                       size: 40,
                     ),
                     hintText: "+252",
@@ -73,32 +94,47 @@ class RegisterScreen extends StatelessWidget {
                         borderRadius: BorderRadius.circular(8))),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.all(12.0),
-              child: TextField(
-                decoration: InputDecoration(
-                    prefixIcon: Icon(
-                      Icons.lock,
-                      size: 40,
-                    ),
-                    hintText: "Password",
-                    fillColor: Color(0xffDFDCDD),
-                    filled: true,
-                    border: OutlineInputBorder(
-                        borderSide: BorderSide.none,
-                        borderRadius: BorderRadius.circular(8))),
-              ),
-            ),
+            // Padding(
+            //   padding: const EdgeInsets.all(12.0),
+            //   child: TextField(
+            //     controller: passwordController,
+            //     decoration: InputDecoration(
+            //         prefixIcon: Icon(
+            //           Icons.lock,
+            //           size: 40,
+            //         ),
+            //         hintText: "Password",
+            //         fillColor: Color(0xffDFDCDD),
+            //         filled: true,
+            //         border: OutlineInputBorder(
+            //             borderSide: BorderSide.none,
+            //             borderRadius: BorderRadius.circular(8))),
+            //   ),
+            // ),
             Padding(
               padding: const EdgeInsets.all(12.0),
               child: MaterialButton(
                 onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => RegisterScreen(),
-                    ),
-                  );
+                  // aaa
+                  auth
+                      .createUserWithEmailAndPassword(
+                          email: emailController.text, password: "sdAsdD@rO!32")
+                      .then((value) {
+                    FirebaseFirestore.instance
+                        .collection('Users')
+                        .doc(value.user?.uid)
+                        .set({
+                      "name": nameController.text,
+                      "email": emailController.text,
+                      "phoneNumber": phoneNumberController.text
+                    });
+                    const snackBar =
+                        SnackBar(content: Text("Waa lagu diwaan galiyay."));
+
+                    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => LoginScreen()));
+                  });
                 },
                 height: 60,
                 minWidth: double.infinity,
@@ -117,7 +153,8 @@ class RegisterScreen extends StatelessWidget {
             ),
             TextButton(
               onPressed: () {
-                Navigator.pop(context);
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => LoginScreen()));
               },
               child: Text(
                 "Login",
@@ -127,16 +164,16 @@ class RegisterScreen extends StatelessWidget {
                 ),
               ),
             ),
-            TextButton(
-              onPressed: () {},
-              child: Text(
-                "Forget Password",
-                style: TextStyle(
-                  color: Color(0xff64994A),
-                  fontSize: 16,
-                ),
-              ),
-            )
+            // TextButton(
+            //   onPressed: () {},
+            //   child: Text(
+            //     "Forget Password",
+            //     style: TextStyle(
+            //       color: Color(0xff64994A),
+            //       fontSize: 16,
+            //     ),
+            //   ),
+            // )
           ],
         ),
       ),
