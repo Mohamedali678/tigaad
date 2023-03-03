@@ -1,6 +1,7 @@
 import 'package:dhir_app/controller/provider_data.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class CartScreen extends StatefulWidget {
   const CartScreen({super.key});
@@ -10,36 +11,9 @@ class CartScreen extends StatefulWidget {
 }
 
 class _CartScreenState extends State<CartScreen> {
-  int incrementPrice = 1;
-  int decrementPrice = 1;
-
-  double totalPrice = 0;
-
-  double money = 0;
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomSheet: MaterialButton(
-        onPressed: () async {
-          // const url = "tel:+333333";
-          // if (await canLaunch(url)) {
-          //   await launch(url);
-          // } else {
-          //   throw 'Could not launch $url';
-          // }
-        },
-        height: 60,
-        minWidth: double.infinity,
-        color: Colors.green,
-        child: Text(
-          "${totalPrice + money}  HADDA IIBSO",
-          style: TextStyle(
-            fontSize: 30,
-            color: Colors.white,
-          ),
-        ),
-      ),
       appBar: AppBar(
         foregroundColor: Colors.black,
         backgroundColor: Colors.white,
@@ -54,8 +28,8 @@ class _CartScreenState extends State<CartScreen> {
           itemCount: Provider.of<ProviderData>(context).getCartItems.length,
           itemBuilder: (context, index) {
             final data = Provider.of<ProviderData>(context).getCartItems;
-            money =
-                Provider.of<ProviderData>(context).getCartItems[index].price;
+            data[index].price;
+            // totalPrice += price!;
 
             return Container(
               color: Colors.white,
@@ -90,7 +64,7 @@ class _CartScreenState extends State<CartScreen> {
                         height: 10,
                       ),
                       Text(
-                        "${data[index].price * decrementPrice}",
+                        "${data[index].price * Provider.of<ProviderData>(context).amount}",
                         style: TextStyle(
                           fontSize: 18,
                           color: Color.fromARGB(255, 45, 102, 47),
@@ -104,11 +78,8 @@ class _CartScreenState extends State<CartScreen> {
                         children: [
                           InkWell(
                             onTap: () {
-                              setState(() {
-                                if (decrementPrice > 1) {
-                                  decrementPrice--;
-                                }
-                              });
+                              Provider.of<ProviderData>(context, listen: false)
+                                  .decrementItem();
                             },
                             child: Container(
                               height: 20,
@@ -130,7 +101,7 @@ class _CartScreenState extends State<CartScreen> {
                             width: 20,
                           ),
                           Text(
-                            "$incrementPrice",
+                            "${Provider.of<ProviderData>(context).amount}",
                             style: TextStyle(fontSize: 20),
                           ),
                           SizedBox(
@@ -138,9 +109,8 @@ class _CartScreenState extends State<CartScreen> {
                           ),
                           InkWell(
                             onTap: () {
-                              setState(() {
-                                incrementPrice++;
-                              });
+                              Provider.of<ProviderData>(context, listen: false)
+                                  .incrementItem();
                             },
                             child: Container(
                               height: 20,
@@ -167,8 +137,7 @@ class _CartScreenState extends State<CartScreen> {
                     child: IconButton(
                       onPressed: () {
                         Provider.of<ProviderData>(context, listen: false)
-                            .removeItem(data[index].imageUrl, data[index].name,
-                                data[index].price);
+                            .updateList(index);
                       },
                       icon: Icon(
                         Icons.close,
@@ -180,6 +149,36 @@ class _CartScreenState extends State<CartScreen> {
               ),
             );
           }),
+      bottomSheet: MaterialButton(
+        onPressed: () async {
+          final Uri url = Uri(
+            scheme: "tel",
+            path:
+                "*712*618907483*${Provider.of<ProviderData>(context, listen: false).getTotalPrice()} #",
+          );
+          if (await canLaunchUrl(url)) {
+            await launchUrl(url);
+          } else {
+            print("Cannot launch");
+          }
+          // const url = "tel:+333333";
+          // if (await canLaunch(url)) {
+          //   await launch(url);
+          // } else {
+          //   throw 'Could not launch $url';
+          // }
+        },
+        height: 60,
+        minWidth: double.infinity,
+        color: Colors.green,
+        child: Text(
+          "\$${Provider.of<ProviderData>(context).getTotalPrice()}  HADDA IIBSO",
+          style: TextStyle(
+            fontSize: 30,
+            color: Colors.white,
+          ),
+        ),
+      ),
     );
   }
 }

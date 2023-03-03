@@ -1,7 +1,7 @@
 class DataBrain {
   final String imageUrl;
   final String name;
-  final double price;
+  final int price;
 
   DataBrain(
     this.imageUrl,
