@@ -40,11 +40,9 @@ dependencies:
   firebase_auth: ^4.2.8
   firebase_core: ^2.6.1
   provider: ^6.0.5
-<<<<<<< HEAD
   url_launcher: ^6.1.10
-=======
   cloud_firestore: ^4.4.3
->>>>>>> 9b4f17edb3b681269793d7eaefc33450f7c02d8d
+
 
 
 dev_dependencies:

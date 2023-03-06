@@ -27,6 +27,7 @@ class _LoginScreenState extends State<LoginScreen> {
   void sendSMS(String phonenumber) async {
     // Future<bool> userExists(String username) async =>
     //     (await _instance.collection("users").where("username", isEqualTo: username).getDocuments()).documents.length > 0;
+
     Future<bool> userExists(String phoneNumber) async => (await _instance
         .collection("Users")
         .where("phoneNumber", isEqualTo: _phoneNumberController.text)
@@ -127,7 +128,29 @@ class _LoginScreenState extends State<LoginScreen> {
               child: MaterialButton(
                 onPressed: () {
                   if (_phoneNumberController.text.length == 9) {
-                    sendSMS("+252" + _phoneNumberController.text);
+                    Future<void> readPhoneNumbers() async {
+                      final querySnapshot =
+                          await _instance.collection('Users').get();
+                      if (querySnapshot.docs.isNotEmpty) {
+                        for (final documentSnapshot in querySnapshot.docs) {
+                          final phoneNumber =
+                              documentSnapshot.data()['phoneNumber'];
+
+                          print("PhoneNumber is ${phoneNumber}");
+
+                          final passingPhone =
+                              "252" + _phoneNumberController.text;
+                          print("PhoneController is ${passingPhone}");
+                          if (phoneNumber == passingPhone) {
+                            sendSMS("+252" + _phoneNumberController.text);
+                          } else {
+                            print("Sorry. You are not registered.");
+                          }
+                        }
+                      }
+                    }
+
+                    readPhoneNumbers();
                   } else {
                     const snackBar2 = SnackBar(
                         content:
