@@ -23,6 +23,8 @@ class _LoginScreenState extends State<LoginScreen> {
   String smsCode = '';
   String verificationId = "";
   var _instance = FirebaseFirestore.instance;
+  bool isFound = false;
+  final snackBar3 = SnackBar(content: Text("Marka hore is diwaan gali."));
 
   void sendSMS(String phonenumber) async {
     // Future<bool> userExists(String username) async =>
@@ -136,16 +138,16 @@ class _LoginScreenState extends State<LoginScreen> {
                           final phoneNumber =
                               documentSnapshot.data()['phoneNumber'];
 
-                          print("PhoneNumber is ${phoneNumber}");
-
                           final passingPhone =
                               "252" + _phoneNumberController.text;
-                          print("PhoneController is ${passingPhone}");
+
                           if (phoneNumber == passingPhone) {
+                            isFound = true;
                             sendSMS("+252" + _phoneNumberController.text);
-                          } else {
-                            print("Sorry. You are not registered.");
                           }
+                        }
+                        if (isFound == false) {
+                          ScaffoldMessenger.of(context).showSnackBar(snackBar3);
                         }
                       }
                     }
