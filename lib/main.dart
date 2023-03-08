@@ -22,7 +22,7 @@ void main() async {
     child: MaterialApp(
       theme: ThemeData(primarySwatch: Colors.green),
       debugShowCheckedModeBanner: false,
-      home: RegisterScreen(),
+      home: BottomNavigationScreen(),
     ),
   ));
 }

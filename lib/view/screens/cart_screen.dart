@@ -45,7 +45,7 @@ class _CartScreenState extends State<CartScreen> {
                       color: Color(0xffF6F6F6),
                       image: DecorationImage(
                         fit: BoxFit.fill,
-                        image: AssetImage(
+                        image: NetworkImage(
                           data[index].imageUrl,
                         ),
                       ),
