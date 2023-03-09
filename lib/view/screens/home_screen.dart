@@ -6,6 +6,7 @@ import 'package:dhir_app/view/screens/cart_screen.dart';
 import 'package:dhir_app/view/screens/dhirta_banaanka_screen.dart';
 import 'package:dhir_app/view/screens/dhirta_guryaha_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_image_slideshow/flutter_image_slideshow.dart';
 
 import 'package:provider/provider.dart';
 
@@ -13,6 +14,7 @@ import '../../model/data_brain.dart';
 
 class HomeScreen extends StatelessWidget {
   // const HomeScreen({super.key});
+  List images = ["forest.jpg", "favorite1.png", "favorite2.png"];
 
   @override
   Widget build(BuildContext context) {
@@ -68,6 +70,27 @@ class HomeScreen extends StatelessWidget {
               //   margin: EdgeInsets.all(12),
               //   height: 180,
               // ),
+              ImageSlideshow(
+                height: 190.0,
+                initialPage: 0,
+                children: images.map((image) {
+                  return Builder(
+                    builder: (BuildContext context) {
+                      return Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(8),
+                          color: Color(0xffD9D9D9),
+                          image: DecorationImage(
+                              fit: BoxFit.cover,
+                              image: AssetImage("assets/images/${image}")),
+                        ),
+                        margin: EdgeInsets.all(12),
+                        height: 180,
+                      );
+                    },
+                  );
+                }).toList(),
+              ),
 
               Padding(
                 padding: const EdgeInsets.all(12.0),
@@ -169,7 +192,7 @@ class HomeScreen extends StatelessWidget {
                       });
                     }
                     return Padding(
-                      padding: const EdgeInsets.only(bottom: 30),
+                      padding: const EdgeInsets.only(bottom: 20),
                       child: Container(
                         height: 470,
                         child: Column(
