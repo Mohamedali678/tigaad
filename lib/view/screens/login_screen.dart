@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 
 import 'dart:developer';
 import '../../shared/constants.dart';
+import '../../shared/context.dart';
 import 'bottom_nav_screen.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -78,6 +79,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
+    AppContext.context = context;
     return Scaffold(
       appBar: AppBar(
         title: const Text("Login"),

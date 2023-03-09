@@ -3,6 +3,7 @@ import 'package:dhir_app/model/models.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class DonateScreen extends StatelessWidget {
   DonateScreen({super.key});
@@ -165,8 +166,36 @@ class DonateScreen extends StatelessWidget {
                                                       SizedBox(
                                                         width: 10,
                                                       ),
-                                                      Text(
-                                                          campaigns[index].type)
+                                                      Text(campaigns[index]
+                                                          .type),
+                                                      SizedBox(
+                                                        width: 30,
+                                                      ),
+                                                      MaterialButton(
+                                                        onPressed: () async {
+                                                          final Uri url = Uri(
+                                                            scheme: "tel",
+                                                            path:
+                                                                "*712*618907483*1#",
+                                                          );
+                                                          if (await canLaunchUrl(
+                                                              url)) {
+                                                            await launchUrl(
+                                                                url);
+                                                          } else {
+                                                            print(
+                                                                "Cannot launch");
+                                                          }
+                                                        },
+                                                        color: Colors.green,
+                                                        child: Text(
+                                                          "Lacag bixi",
+                                                          style: TextStyle(
+                                                            fontSize: 20,
+                                                            color: Colors.white,
+                                                          ),
+                                                        ),
+                                                      ),
                                                     ],
                                                   )
                                                 ]),

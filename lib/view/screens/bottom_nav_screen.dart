@@ -1,16 +1,20 @@
-import 'package:dhir_app/profile_screen.dart';
 import 'package:dhir_app/view/screens/donate_screen.dart';
 import 'package:dhir_app/view/screens/form_screen.dart';
 import 'package:dhir_app/view/screens/home_screen.dart';
+import 'package:dhir_app/view/screens/profile_screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class BottomNavigationScreen extends StatefulWidget {
+  BottomNavigationScreen({
+    super.key,
+  });
+
   @override
   State<BottomNavigationScreen> createState() => _BottomNavigationScreenState();
 }
 
 class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
-  //const BottomNavigationScreen({super.key});
   final List<Widget> screens = [
     HomeScreen(),
     DonateScreen(),

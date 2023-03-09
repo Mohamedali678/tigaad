@@ -1,5 +1,9 @@
+import 'dart:async';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dhir_app/model/data.dart';
 import 'package:dhir_app/model/models.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class ProviderData extends ChangeNotifier {
@@ -49,3 +53,5 @@ class ProviderData extends ChangeNotifier {
     return cartPrice;
   }
 }
+
+//
