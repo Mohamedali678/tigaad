@@ -1,9 +1,9 @@
 import 'package:dhir_app/model/data.dart';
-import 'package:dhir_app/model/data_brain.dart';
+import 'package:dhir_app/model/models.dart';
 import 'package:flutter/material.dart';
 
 class ProviderData extends ChangeNotifier {
-  List<DataBrain> getCartItems = [];
+  List<plantModel> getCartItems = [];
 
   int amount = 1;
 
@@ -13,13 +13,13 @@ class ProviderData extends ChangeNotifier {
     int price,
     String type,
   ) {
-    getCartItems.add(DataBrain(imageUrl, name, price, type));
+    getCartItems.add(plantModel(imageUrl, name, price, type));
 
     notifyListeners();
   }
 
   removeItem(String imageUrl, String name, String type, int price) {
-    getCartItems.remove(DataBrain(imageUrl, name, price, type));
+    getCartItems.remove(plantModel(imageUrl, name, price, type));
   }
 
   void updateList(int index) {

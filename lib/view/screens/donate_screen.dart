@@ -1,9 +1,14 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dhir_app/model/models.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 
 class DonateScreen extends StatelessWidget {
-  const DonateScreen({super.key});
+  DonateScreen({super.key});
+
+  late final collectionProgress = [];
+  late double percentage = 1;
 
   @override
   Widget build(BuildContext context) {
@@ -29,87 +34,153 @@ class DonateScreen extends StatelessWidget {
               SizedBox(
                 height: 10,
               ),
-              Expanded(
-                child: ListView.builder(
-                    itemCount: 3,
-                    itemBuilder: (context, index) {
-                      return Padding(
-                        padding: const EdgeInsets.only(top: 20),
-                        child: Card(
-                          shadowColor: Colors.black,
-                          color: Colors.grey.shade200,
-                          child: Padding(
-                            padding: const EdgeInsets.all(13.0),
-                            child: Container(
-                              child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Image.asset("assets/images/forest.jpg"),
+              StreamBuilder(
+                  stream: FirebaseFirestore.instance
+                      .collection('Campaigns')
+                      .snapshots(),
+                  builder: (context, snapshot) {
+                    if (!snapshot.hasData) return CircularProgressIndicator();
+                    List<campaignModel> campaigns = [];
+                    if (snapshot.data != null) {
+                      // Add a null check here
+                      snapshot.data!.docs.forEach((doc) {
+                        campaigns.add(campaignModel(
+                          doc.data()['imageUrl'],
+                          doc.data()['targetAmount'],
+                          doc.data()['currentAmount'],
+                          doc.data()['title'],
+                          doc.data()['description'],
+                          doc.data()['city'],
+                          doc.data()['numberOfTrees'],
+                          doc.data()['type'],
+                        ));
+                        percentage = ((doc.data()['currentAmount'] /
+                                doc.data()['targetAmount']) *
+                            100);
+                        collectionProgress.add(percentage);
+                      });
+                    }
 
-                                    // TO DO: Working progress bar
-                                    LinearProgressIndicator(
-                                      backgroundColor: Colors.green,
-                                      color: Colors.green,
-                                      minHeight: 30,
-                                      value: 15,
-                                    ),
-                                    SizedBox(
-                                      height: 20,
-                                    ),
+                    return Padding(
+                      padding: const EdgeInsets.only(bottom: 20),
+                      child: Container(
+                        height: 470,
+                        child: Column(
+                          children: [
+                            Expanded(
+                              child: ListView.builder(
+                                  itemCount: campaigns.length,
+                                  itemBuilder: (context, index) {
+                                    return Padding(
+                                      padding: const EdgeInsets.only(top: 20),
+                                      child: Card(
+                                        shadowColor: Colors.black,
+                                        color: Colors.grey.shade200,
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(13.0),
+                                          child: Container(
+                                            child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  Image.network(campaigns[index]
+                                                      .imageUrl),
 
-                                    Text(
-                                      "Dhireynta Iskuulada",
-                                      style: TextStyle(
-                                          fontSize: 24,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                    SizedBox(
-                                      height: 10,
-                                    ),
-                                    Text(
-                                        'djasndksndajksndakjsdnasjdnasjdnsajd\ndsdbsajdbsajkdbjsbdjksab\nbsdbsadaskjdbaskdsajdsja'),
-                                    SizedBox(
-                                      height: 10,
-                                    ),
-                                    // 1
-                                    Row(
-                                      children: [
-                                        Icon(Icons.location_on),
-                                        SizedBox(
-                                          width: 10,
+                                                  // TO DO: Working progress bar
+                                                  SizedBox(
+                                                    height: 30,
+                                                    child:
+                                                        LinearProgressIndicator(
+                                                      value: collectionProgress[
+                                                              index] /
+                                                          100, // The progress as a decimal between 0 and 1.
+                                                      backgroundColor: Colors
+                                                              .grey[
+                                                          200], // The background color of the progress bar.
+                                                      valueColor:
+                                                          AlwaysStoppedAnimation<
+                                                                  Color>(
+                                                              Colors
+                                                                  .green), // The color of the progress bar.
+                                                    ),
+                                                  ),
+                                                  SizedBox(
+                                                      height:
+                                                          10), // A small gap between the progress bar and the percentage display.
+                                                  Text(
+                                                    '${collectionProgress[index].round()}%',
+                                                    style: TextStyle(
+                                                        fontSize: 20,
+                                                        fontWeight:
+                                                            FontWeight.bold),
+                                                  ),
+                                                  SizedBox(
+                                                    height: 20,
+                                                  ),
+
+                                                  Text(
+                                                    campaigns[index].title,
+                                                    style: TextStyle(
+                                                        fontSize: 24,
+                                                        fontWeight:
+                                                            FontWeight.bold),
+                                                  ),
+                                                  SizedBox(
+                                                    height: 10,
+                                                  ),
+                                                  Text(campaigns[index]
+                                                      .description),
+                                                  SizedBox(
+                                                    height: 10,
+                                                  ),
+                                                  // 1
+                                                  Row(
+                                                    children: [
+                                                      Icon(Icons.location_on),
+                                                      SizedBox(
+                                                        width: 10,
+                                                      ),
+                                                      Text(
+                                                          campaigns[index].city)
+                                                    ],
+                                                  ),
+
+                                                  // 2
+                                                  Row(
+                                                    children: [
+                                                      Icon(Icons
+                                                          .golf_course_sharp),
+                                                      SizedBox(
+                                                        width: 10,
+                                                      ),
+                                                      Text(campaigns[index]
+                                                          .numberOfTrees)
+                                                    ],
+                                                  ),
+
+                                                  // 3
+                                                  Row(
+                                                    children: [
+                                                      Icon(Icons.location_city),
+                                                      SizedBox(
+                                                        width: 10,
+                                                      ),
+                                                      Text(
+                                                          campaigns[index].type)
+                                                    ],
+                                                  )
+                                                ]),
+                                          ),
                                         ),
-                                        Text("Mogadishu")
-                                      ],
-                                    ),
-
-                                    // 2
-                                    Row(
-                                      children: [
-                                        Icon(Icons.golf_course_sharp),
-                                        SizedBox(
-                                          width: 10,
-                                        ),
-                                        Text("200 Geed")
-                                      ],
-                                    ),
-
-                                    // 3
-                                    Row(
-                                      children: [
-                                        Icon(Icons.location_city),
-                                        SizedBox(
-                                          width: 10,
-                                        ),
-                                        Text("Iskuulada")
-                                      ],
-                                    )
-                                  ]),
+                                      ),
+                                    );
+                                  }),
                             ),
-                          ),
+                          ],
                         ),
-                      );
-                    }),
-              ),
+                      ),
+                    );
+                  }),
             ],
           ),
         ),

@@ -5,12 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../controller/provider_data.dart';
-import '../../model/data_brain.dart';
+import '../../model/models.dart';
 
 class DhirtaBanaankaScreen extends StatelessWidget {
   //const DhirtaBanaankaScreen({super.key});
-
-  final object = Data();
 
   @override
   Widget build(BuildContext context) {
@@ -55,13 +53,13 @@ class DhirtaBanaankaScreen extends StatelessWidget {
           builder: (context, snapshot) {
             if (!snapshot.hasData) return CircularProgressIndicator();
 
-            List<DataBrain> outsidePlants = [];
+            List<plantModel> outsidePlants = [];
 
             if (snapshot.data != null) {
               // Add a null check here
               snapshot.data!.docs.forEach((doc) {
                 if (doc.data()['type'] == 'outside') {
-                  outsidePlants.add(DataBrain(
+                  outsidePlants.add(plantModel(
                     doc.data()['imageUrl'],
                     doc.data()['name'],
                     doc.data()['price'],

@@ -10,7 +10,7 @@ import 'package:flutter_image_slideshow/flutter_image_slideshow.dart';
 
 import 'package:provider/provider.dart';
 
-import '../../model/data_brain.dart';
+import '../../model/models.dart';
 
 class HomeScreen extends StatelessWidget {
   // const HomeScreen({super.key});
@@ -174,15 +174,15 @@ class HomeScreen extends StatelessWidget {
                       .snapshots(),
                   builder: (context, snapshot) {
                     if (!snapshot.hasData) return CircularProgressIndicator();
-                    List<DataBrain> mostLikedPlants = [];
-                    List<DataBrain> insidePlants = [];
-                    List<DataBrain> outsidePlants = [];
+                    List<plantModel> mostLikedPlants = [];
+                    List<plantModel> insidePlants = [];
+                    List<plantModel> outsidePlants = [];
 
                     if (snapshot.data != null) {
                       // Add a null check here
                       snapshot.data!.docs.forEach((doc) {
                         if (doc.data()['type'] == 'mostLiked') {
-                          mostLikedPlants.add(DataBrain(
+                          mostLikedPlants.add(plantModel(
                             doc.data()['imageUrl'],
                             doc.data()['name'],
                             doc.data()['price'],

@@ -7,7 +7,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:provider/provider.dart';
 
 import '../../controller/provider_data.dart';
-import '../../model/data_brain.dart';
+import '../../model/models.dart';
 
 class DhirtaGuryahaScreen extends StatefulWidget {
   @override
@@ -16,7 +16,6 @@ class DhirtaGuryahaScreen extends StatefulWidget {
 
 class _DhirtaGuryahaScreenState extends State<DhirtaGuryahaScreen> {
   // const DhirtaGuryahaScreen({super.key});
-  final object = Data();
 
   @override
   Widget build(BuildContext context) {
@@ -61,13 +60,13 @@ class _DhirtaGuryahaScreenState extends State<DhirtaGuryahaScreen> {
           builder: (context, snapshot) {
             if (!snapshot.hasData) return CircularProgressIndicator();
 
-            List<DataBrain> insidePlants = [];
+            List<plantModel> insidePlants = [];
 
             if (snapshot.data != null) {
               // Add a null check here
               snapshot.data!.docs.forEach((doc) {
                 if (doc.data()['type'] == 'inside') {
-                  insidePlants.add(DataBrain(
+                  insidePlants.add(plantModel(
                     doc.data()['imageUrl'],
                     doc.data()['name'],
                     doc.data()['price'],
