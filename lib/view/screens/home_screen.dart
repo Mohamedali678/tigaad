@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_image_slideshow/flutter_image_slideshow.dart';
 
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../model/models.dart';
 
@@ -21,6 +22,9 @@ class HomeScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: Color.fromARGB(255, 245, 241, 241),
       appBar: AppBar(
+        iconTheme: IconThemeData(
+          color: Color.fromARGB(255, 44, 91, 46),
+        ),
         backgroundColor: Color(0xffF6F6F6),
         actions: [
           Padding(
@@ -196,6 +200,7 @@ class HomeScreen extends StatelessWidget {
                       child: Container(
                         height: 470,
                         child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Padding(
                               padding: const EdgeInsets.all(12.0),
@@ -304,6 +309,56 @@ class HomeScreen extends StatelessWidget {
               )
             ],
           ),
+        ),
+      ),
+      drawer: Drawer(
+        child: ListView(
+          children: [
+            DrawerHeader(
+              decoration: BoxDecoration(
+                color: Colors.green,
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    "Tigaad",
+                    style: TextStyle(
+                      fontSize: 26,
+                      color: Colors.white,
+                    ),
+                  )
+                ],
+              ),
+            ),
+            SizedBox(
+              height: 30,
+            ),
+            ListTile(
+              onTap: () async {
+                final Uri url = Uri(
+                  scheme: "tel",
+                  path: "+252618907483",
+                );
+                if (await canLaunchUrl(url)) {
+                  await launchUrl(url);
+                } else {
+                  print("Cannot launch");
+                }
+              },
+              leading: Icon(
+                Icons.call,
+                size: 30,
+              ),
+              title: Text(
+                "Call us",
+                style: TextStyle(
+                  fontSize: 26,
+                ),
+              ),
+              trailing: Icon(Icons.arrow_forward_ios_outlined),
+            )
+          ],
         ),
       ),
     );
