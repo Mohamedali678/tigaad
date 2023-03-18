@@ -9,7 +9,7 @@ import 'package:flutter/material.dart';
 class ProviderData extends ChangeNotifier {
   List<plantModel> getCartItems = [];
 
-  int amount = 1;
+  List<int> amount = [];
 
   void addToCart(
     String imageUrl,
@@ -22,6 +22,11 @@ class ProviderData extends ChangeNotifier {
     notifyListeners();
   }
 
+  void incrementAmount() {
+    amount.add(1);
+    notifyListeners();
+  }
+
   removeItem(String imageUrl, String name, String type, int price) {
     getCartItems.remove(plantModel(imageUrl, name, price, type));
   }
@@ -31,24 +36,24 @@ class ProviderData extends ChangeNotifier {
     notifyListeners();
   }
 
-  void incrementItem() {
-    amount++;
+  void incrementItem(int i) {
+    amount[i]++;
     notifyListeners();
   }
 
-  void decrementItem() {
-    if (amount > 1) {
-      amount--;
+  void decrementItem(int i) {
+    if (amount[i] > 1) {
+      amount[i]--;
     }
 
     notifyListeners();
   }
 
   //getting total price in cart screen.
-  getTotalPrice() {
+  getTotalPrice(int i) {
     int cartPrice = 0;
     getCartItems.forEach((element) {
-      cartPrice += element.price * amount;
+      cartPrice += element.price * amount[i];
     });
     return cartPrice;
   }

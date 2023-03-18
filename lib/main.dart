@@ -30,29 +30,31 @@ void main() async {
         // Add more providers here as needed
       ],
       child: MaterialApp(
-        theme: ThemeData(primarySwatch: Colors.green),
-        debugShowCheckedModeBanner: false,
-        navigatorObservers: [routeObserver],
-        home: StreamBuilder<User?>(
-          stream: _auth.authStateChanges(),
-          builder: (BuildContext context, AsyncSnapshot<User?> snapshot) {
-            if (snapshot.connectionState == ConnectionState.active) {
-              User? user = snapshot.data;
-              if (user == null) {
-                return RegisterScreen();
-              } else {
-                return BottomNavigationScreen();
-              }
-            } else {
-              return Scaffold(
-                body: Center(
-                  child: CircularProgressIndicator(),
-                ),
-              );
-            }
-          },
-        ),
-      ),
+          theme: ThemeData(primarySwatch: Colors.green),
+          debugShowCheckedModeBanner: false,
+          navigatorObservers: [routeObserver],
+          home: BottomNavigationScreen()),
     ),
   );
 }
+
+
+// StreamBuilder<User?>(
+//           stream: _auth.authStateChanges(),
+//           builder: (BuildContext context, AsyncSnapshot<User?> snapshot) {
+//             if (snapshot.connectionState == ConnectionState.active) {
+//               User? user = snapshot.data;
+//               if (user == null) {
+//                 return RegisterScreen();
+//               } else {
+//                 return BottomNavigationScreen();
+//               }
+//             } else {
+//               return Scaffold(
+//                 body: Center(
+//                   child: CircularProgressIndicator(),
+//                 ),
+//               );
+//             }
+//           },
+//         ),

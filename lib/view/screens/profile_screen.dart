@@ -34,7 +34,7 @@ class ProfileScreen extends StatelessWidget {
                 height: 20,
               ),
               Text(
-                "Name: Ahmad Ali",
+                "Name: Ali Faarah",
                 style: TextStyle(fontSize: 20),
               ),
               SizedBox(

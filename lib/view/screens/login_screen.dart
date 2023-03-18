@@ -26,6 +26,7 @@ class _LoginScreenState extends State<LoginScreen> {
   var _instance = FirebaseFirestore.instance;
   bool isFound = false;
   final snackBar3 = SnackBar(content: Text("Marka hore is diwaan gali."));
+  late final String userName;
 
   void sendSMS(String phonenumber) async {
     // Future<bool> userExists(String username) async =>
@@ -145,6 +146,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
                           if (phoneNumber == passingPhone) {
                             isFound = true;
+                            userName = documentSnapshot.data()['name'];
                             sendSMS("+252" + _phoneNumberController.text);
                           }
                         }

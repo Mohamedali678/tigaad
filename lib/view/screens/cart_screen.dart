@@ -30,6 +30,14 @@ class _CartScreenState extends State<CartScreen> {
             final data = Provider.of<ProviderData>(context).getCartItems;
             data[index].price;
             // totalPrice += price!;
+            int length = Provider.of<ProviderData>(context).getCartItems.length;
+            int amountLength = Provider.of<ProviderData>(context).amount.length;
+
+            if (amountLength < length) {
+              Provider.of<ProviderData>(context).incrementAmount();
+            }
+
+            // Provider.of<ProviderData>(context).amount = List.filled(length, 1);
 
             return Container(
               color: Colors.white,
@@ -64,7 +72,7 @@ class _CartScreenState extends State<CartScreen> {
                         height: 10,
                       ),
                       Text(
-                        "${data[index].price * Provider.of<ProviderData>(context).amount}",
+                        "${data[index].price * Provider.of<ProviderData>(context).amount[1]}",
                         style: TextStyle(
                           fontSize: 18,
                           color: Color.fromARGB(255, 45, 102, 47),
@@ -79,7 +87,7 @@ class _CartScreenState extends State<CartScreen> {
                           InkWell(
                             onTap: () {
                               Provider.of<ProviderData>(context, listen: false)
-                                  .decrementItem();
+                                  .decrementItem(index);
                             },
                             child: Container(
                               height: 20,
@@ -110,7 +118,7 @@ class _CartScreenState extends State<CartScreen> {
                           InkWell(
                             onTap: () {
                               Provider.of<ProviderData>(context, listen: false)
-                                  .incrementItem();
+                                  .incrementItem(index);
                             },
                             child: Container(
                               height: 20,
@@ -151,16 +159,16 @@ class _CartScreenState extends State<CartScreen> {
           }),
       bottomSheet: MaterialButton(
         onPressed: () async {
-          final Uri url = Uri(
-            scheme: "tel",
-            path:
-                "*712*618907483*${Provider.of<ProviderData>(context, listen: false).getTotalPrice()} #",
-          );
-          if (await canLaunchUrl(url)) {
-            await launchUrl(url);
-          } else {
-            print("Cannot launch");
-          }
+          // final Uri url = Uri(
+          //   scheme: "tel",
+          //   path:
+          //       "*712*618907483*${Provider.of<ProviderData>(context, listen: false).getTotalPrice(index)} #",
+          // );
+          // if (await canLaunchUrl(url)) {
+          //   await launchUrl(url);
+          // } else {
+          //   print("Cannot launch");
+          // }
           // const url = "tel:+333333";
           // if (await canLaunch(url)) {
           //   await launch(url);
@@ -172,7 +180,8 @@ class _CartScreenState extends State<CartScreen> {
         minWidth: double.infinity,
         color: Colors.green,
         child: Text(
-          "\$${Provider.of<ProviderData>(context).getTotalPrice()}  HADDA IIBSO",
+          "sasasa",
+          // "\$${Provider.of<ProviderData>(context).getTotalPrice()}  HADDA IIBSO",
           style: TextStyle(
             fontSize: 30,
             color: Colors.white,
