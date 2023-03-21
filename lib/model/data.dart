@@ -28,3 +28,11 @@
 //     urls.add(url);
 //   }
 // }
+
+import 'package:dhir_app/model/models.dart';
+
+class CartOrder {
+  int quantity = 1;
+  plantModel product;
+  CartOrder(this.product);
+}

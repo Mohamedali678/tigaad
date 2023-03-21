@@ -11,6 +11,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import 'controller/cart_provider.dart';
 import 'firebase_options.dart';
 
 final RouteObserver<PageRoute<dynamic>> routeObserver =
@@ -27,31 +28,33 @@ void main() async {
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => ProviderData()),
+        ChangeNotifierProvider(create: (_) => CartProvider()),
         // Add more providers here as needed
       ],
       child: MaterialApp(
         theme: ThemeData(primarySwatch: Colors.green),
         debugShowCheckedModeBanner: false,
         navigatorObservers: [routeObserver],
-        home: StreamBuilder<User?>(
-          stream: _auth.authStateChanges(),
-          builder: (BuildContext context, AsyncSnapshot<User?> snapshot) {
-            if (snapshot.connectionState == ConnectionState.active) {
-              User? user = snapshot.data;
-              if (user == null) {
-                return RegisterScreen();
-              } else {
-                return BottomNavigationScreen();
-              }
-            } else {
-              return Scaffold(
-                body: Center(
-                  child: CircularProgressIndicator(),
-                ),
-              );
-            }
-          },
-        ),
+        home: BottomNavigationScreen(),
+        // StreamBuilder<User?>(
+        //   stream: _auth.authStateChanges(),
+        //   builder: (BuildContext context, AsyncSnapshot<User?> snapshot) {
+        //     if (snapshot.connectionState == ConnectionState.active) {
+        //       User? user = snapshot.data;
+        //       if (user == null) {
+        //         return RegisterScreen();
+        //       } else {
+        //         return BottomNavigationScreen();
+        //       }
+        //     } else {
+        //       return Scaffold(
+        //         body: Center(
+        //           child: CircularProgressIndicator(),
+        //         ),
+        //       );
+        //     }
+        //   },
+        // ),
       ),
     ),
   );

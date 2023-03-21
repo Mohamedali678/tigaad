@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dhir_app/model/data.dart';
 import 'package:dhir_app/model/models.dart';
@@ -18,7 +16,6 @@ class ProviderData extends ChangeNotifier {
     String type,
   ) {
     getCartItems.add(plantModel(imageUrl, name, price, type));
-
     notifyListeners();
   }
 

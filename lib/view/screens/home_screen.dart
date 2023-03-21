@@ -1,5 +1,6 @@
 // import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dhir_app/controller/cart_provider.dart';
 import 'package:dhir_app/controller/provider_data.dart';
 import 'package:dhir_app/model/data.dart';
 import 'package:dhir_app/view/screens/cart_screen.dart';
@@ -30,7 +31,7 @@ class HomeScreen extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(top: 12.0),
             child: Text(
-              "(${Provider.of<ProviderData>(context).getCartItems.length})",
+              "(${Provider.of<CartProvider>(context).getAllCarts.length})",
               style: TextStyle(color: Colors.black, fontSize: 26),
             ),
           ),
@@ -272,18 +273,12 @@ class HomeScreen extends StatelessWidget {
                                             ),
                                             IconButton(
                                                 onPressed: () {
-                                                  Provider.of<ProviderData>(
+                                                  Provider.of<CartProvider>(
                                                           context,
                                                           listen: false)
                                                       .addToCart(
-                                                          mostLikedPlants[index]
-                                                              .imageUrl,
-                                                          mostLikedPlants[index]
-                                                              .name,
-                                                          mostLikedPlants[index]
-                                                              .price,
-                                                          mostLikedPlants[index]
-                                                              .type);
+                                                    mostLikedPlants[index],
+                                                  );
                                                 },
                                                 icon: Icon(
                                                   Icons.shopping_cart,
@@ -340,6 +335,7 @@ class HomeScreen extends StatelessWidget {
                   scheme: "tel",
                   path: "+252618907483",
                 );
+
                 if (await canLaunchUrl(url)) {
                   await launchUrl(url);
                 } else {
