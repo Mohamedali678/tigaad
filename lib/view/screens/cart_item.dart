@@ -139,7 +139,8 @@ class _CartItemState extends State<CartItem> {
             child: IconButton(
               onPressed: () {
                 setState(() {});
-                Provider.of<CartProvider>(context, listen: false);
+                Provider.of<CartProvider>(context, listen: false)
+                    .removeItem(widget.index);
               },
               icon: Icon(
                 Icons.close,

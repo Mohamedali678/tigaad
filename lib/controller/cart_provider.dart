@@ -21,6 +21,11 @@ class CartProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  void removeItem(int index) {
+    getAllCarts.removeAt(index);
+    notifyListeners();
+  }
+
   getTotalPrice() {
     int totalPrice = 0;
     getAllCarts.forEach((element) {
