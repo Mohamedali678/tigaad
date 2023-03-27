@@ -18,7 +18,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
   FirebaseAuth auth = FirebaseAuth.instance;
 
   TextEditingController nameController = TextEditingController();
-  TextEditingController phoneNumberController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
@@ -82,13 +81,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
               padding: const EdgeInsets.all(12.0),
               child: TextField(
                 keyboardType: TextInputType.number,
-                controller: phoneNumberController,
+                controller: passwordController,
                 decoration: InputDecoration(
                     prefixIcon: Icon(
-                      Icons.flag,
+                      Icons.lock,
                       size: 40,
                     ),
-                    hintText: "+252",
+                    hintText: "Password",
                     fillColor: Color(0xffDFDCDD),
                     filled: true,
                     border: OutlineInputBorder(
@@ -120,8 +119,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   Auth().registerUser(
                     nameController.text,
                     emailController.text,
-                    phoneNumberController.text,
+                    passwordController.text,
                   );
+
                   Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(

@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dhir_app/controller/Firebase/auth.dart';
 import 'package:dhir_app/view/screens/forget_password_screen.dart';
 import 'package:dhir_app/view/screens/home_screen.dart';
 import 'package:dhir_app/view/screens/register_screen.dart';
@@ -19,63 +20,67 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   FirebaseAuth auth = FirebaseAuth.instance;
-  TextEditingController _phoneNumberController = TextEditingController();
-  TextEditingController _smsCodeController = TextEditingController();
-  String smsCode = '';
-  String verificationId = "";
-  var _instance = FirebaseFirestore.instance;
-  bool isFound = false;
-  final snackBar3 = SnackBar(content: Text("Marka hore is diwaan gali."));
 
-  void sendSMS(String phonenumber) async {
-    // Future<bool> userExists(String username) async =>
-    //     (await _instance.collection("users").where("username", isEqualTo: username).getDocuments()).documents.length > 0;
+  TextEditingController _email = TextEditingController();
+  TextEditingController _password = TextEditingController();
 
-    Future<bool> userExists(String phoneNumber) async => (await _instance
-        .collection("Users")
-        .where("phoneNumber", isEqualTo: _phoneNumberController.text)
-        .get()
-        .then((value) => value.size > 0 ? true : false));
+  // String smsCode = '';
+  // String verificationId = "";
+  // var _instance = FirebaseFirestore.instance;
+  // bool isFound = false;
+  // final snackBar3 = SnackBar(content: Text("Marka hore is diwaan gali."));
 
-    if (!(await userExists(_phoneNumberController.text))) {
-      await FirebaseAuth.instance.verifyPhoneNumber(
-        phoneNumber: phonenumber,
-        verificationCompleted: (PhoneAuthCredential credential) {},
-        verificationFailed: (FirebaseAuthException e) {
-          if (e.code == 'invalid-phone-number') {
-            const snackBar1 = SnackBar(content: Text("Number-ka waa khalad."));
+  // void sendSMS(String phonenumber) async {
+  //   // Future<bool> userExists(String username) async =>
+  //   //     (await _instance.collection("users").where("username", isEqualTo: username).getDocuments()).documents.length > 0;
 
-            ScaffoldMessenger.of(context).showSnackBar(snackBar1);
-          }
-        },
-        codeSent: (String verificationId, int? resendToken) async {
-          final smsCode = await getSmsCodeFromUser(context);
+  //   Future<bool> userExists(String phoneNumber) async => (await _instance
+  //       .collection("Users")
+  //       .where("phoneNumber", isEqualTo: _email.text)
+  //       .get()
+  //       .then((value) => value.size > 0 ? true : false));
 
-          if (smsCode != null) {
-            // Create a PhoneAuthCredential with the code
-            final credential = PhoneAuthProvider.credential(
-              verificationId: verificationId,
-              smsCode: smsCode,
-            );
+  //   if (!(await userExists(_email.text))) {
+  //     await FirebaseAuth.instance.verifyPhoneNumber(
+  //       phoneNumber: phonenumber,
+  //       verificationCompleted: (PhoneAuthCredential credential) {},
+  //       verificationFailed: (FirebaseAuthException e) {
+  //         if (e.code == 'invalid-phone-number') {
+  //           const snackBar1 = SnackBar(content: Text("Number-ka waa khalad."));
 
-            // Sign the user in (or link) with the credential
-            final result =
-                await FirebaseAuth.instance.signInWithCredential(credential);
+  //           ScaffoldMessenger.of(context).showSnackBar(snackBar1);
+  //         }
+  //       },
+  //       codeSent: (String verificationId, int? resendToken) async {
+  //         final smsCode = await getSmsCodeFromUser(context);
 
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => BottomNavigationScreen()));
-          }
-        },
-        codeAutoRetrievalTimeout: (String verificationId) {},
-      );
-    } else {
-      print("numberka wuu jiraa");
-    }
-  }
+  //         if (smsCode != null) {
+  //           // Create a PhoneAuthCredential with the code
+  //           final credential = PhoneAuthProvider.credential(
+  //             verificationId: verificationId,
+  //             smsCode: smsCode,
+  //           );
+
+  //           // Sign the user in (or link) with the credential
+  //           final result =
+  //               await FirebaseAuth.instance.signInWithCredential(credential);
+
+  //           Navigator.push(
+  //               context,
+  //               MaterialPageRoute(
+  //                   builder: (context) => BottomNavigationScreen()));
+  //         }
+  //       },
+  //       codeAutoRetrievalTimeout: (String verificationId) {},
+  //     );
+  //   } else {
+  //     print("numberka wuu jiraa");
+  //   }
+  // }
 
   // Check sms fucntion: TODO
+
+  final _auth = FirebaseAuth.instance;
 
   @override
   Widget build(BuildContext context) {
@@ -91,27 +96,29 @@ class _LoginScreenState extends State<LoginScreen> {
             SizedBox(
               height: 30,
             ),
+
             Image(
               image: AssetImage("assets/images/logo.png"),
             ),
+
             SizedBox(
               height: 30,
             ),
+
             Row(
               children: [
                 Expanded(
                   child: Padding(
                     padding: EdgeInsets.all(12.0),
                     child: TextField(
-                      controller: _phoneNumberController,
+                      controller: _email,
                       keyboardType: TextInputType.number,
                       decoration: InputDecoration(
                           prefixIcon: Icon(
-                            Icons.phone,
+                            Icons.email,
                             size: 40,
                           ),
-                          prefixText: "+252",
-                          hintText: "Phone",
+                          hintText: "Email",
                           fillColor: Color(0xffDFDCDD),
                           filled: true,
                           border: OutlineInputBorder(
@@ -123,45 +130,38 @@ class _LoginScreenState extends State<LoginScreen> {
               ],
             ),
             SizedBox(
-              height: 20,
+              height: 10,
             ),
 // small boxes
-
+            Padding(
+              padding: EdgeInsets.all(12.0),
+              child: TextField(
+                controller: _password,
+                keyboardType: TextInputType.number,
+                decoration: InputDecoration(
+                    prefixIcon: Icon(
+                      Icons.lock,
+                      size: 40,
+                    ),
+                    hintText: "Password",
+                    fillColor: Color(0xffDFDCDD),
+                    filled: true,
+                    border: OutlineInputBorder(
+                        borderSide: BorderSide.none,
+                        borderRadius: BorderRadius.circular(8))),
+              ),
+            ),
             Padding(
               padding: const EdgeInsets.all(12.0),
               child: MaterialButton(
                 onPressed: () {
-                  if (_phoneNumberController.text.length == 9) {
-                    Future<void> readPhoneNumbers() async {
-                      final querySnapshot =
-                          await _instance.collection('Users').get();
-                      if (querySnapshot.docs.isNotEmpty) {
-                        for (final documentSnapshot in querySnapshot.docs) {
-                          final phoneNumber =
-                              documentSnapshot.data()['phoneNumber'];
-
-                          final passingPhone =
-                              "252" + _phoneNumberController.text;
-
-                          if (phoneNumber == passingPhone) {
-                            isFound = true;
-                            sendSMS("+252" + _phoneNumberController.text);
-                          }
-                        }
-                        if (isFound == false) {
-                          ScaffoldMessenger.of(context).showSnackBar(snackBar3);
-                        }
-                      }
-                    }
-
-                    readPhoneNumbers();
-                  } else {
-                    const snackBar2 = SnackBar(
-                        content:
-                            Text("Number-ka wuu gaaban yahay. Dhamaystir."));
-
-                    ScaffoldMessenger.of(context).showSnackBar(snackBar2);
-                  }
+                  Auth().logIn(_email.text, _password.text);
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => BottomNavigationScreen(),
+                    ),
+                  );
                 },
                 height: 60,
                 minWidth: double.infinity,
