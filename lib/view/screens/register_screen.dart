@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dhir_app/controller/Firebase/auth.dart';
 import 'package:dhir_app/view/screens/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
@@ -115,26 +116,31 @@ class _RegisterScreenState extends State<RegisterScreen> {
               padding: const EdgeInsets.all(12.0),
               child: MaterialButton(
                 onPressed: () {
+                  Auth().registerUser(
+                    nameController.text,
+                    emailController.text,
+                    phoneNumberController.text,
+                  );
                   // aaa
-                  auth
-                      .createUserWithEmailAndPassword(
-                          email: emailController.text, password: "sdAsdD@rO!32")
-                      .then((value) {
-                    FirebaseFirestore.instance
-                        .collection('Users')
-                        .doc(value.user?.uid)
-                        .set({
-                      "name": nameController.text,
-                      "email": emailController.text,
-                      "phoneNumber": phoneNumberController.text
-                    });
-                    const snackBar =
-                        SnackBar(content: Text("Waa lagu diwaan galiyay."));
+                  // auth
+                  //     .createUserWithEmailAndPassword(
+                  //         email: emailController.text, password: "sdAsdD@rO!32")
+                  //     .then((value) {
+                  //   FirebaseFirestore.instance
+                  //       .collection('Users')
+                  //       .doc(value.user?.uid)
+                  //       .set({
+                  //     "name": nameController.text,
+                  //     "email": emailController.text,
+                  //     "phoneNumber": phoneNumberController.text,
+                  //   });
+                  //   const snackBar =
+                  //       SnackBar(content: Text("Waa lagu diwaan galiyay."));
 
-                    ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => LoginScreen()));
-                  });
+                  //   ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                  //   Navigator.push(context,
+                  //       MaterialPageRoute(builder: (context) => LoginScreen()));
+                  // });
                 },
                 height: 60,
                 minWidth: double.infinity,
