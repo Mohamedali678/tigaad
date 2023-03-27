@@ -10,4 +10,25 @@ class CartProvider extends ChangeNotifier {
     getAllCarts.add(CartOrder(product));
     notifyListeners();
   }
+
+  void incrementItem(element) {
+    element.quantity++;
+    notifyListeners();
+  }
+
+  void decrementItem(element) {
+    element.quantity--;
+    notifyListeners();
+  }
+
+  getTotalPrice() {
+    int totalPrice = 0;
+    getAllCarts.forEach((element) {
+      totalPrice += element.product.price * element.quantity;
+      print(
+          "price: ${element.product.price}, quantity: ${element.quantity}, total price is ${totalPrice}");
+    });
+
+    return totalPrice;
+  }
 }

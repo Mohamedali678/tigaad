@@ -6,6 +6,7 @@ import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:provider/provider.dart';
 
+import '../../controller/cart_provider.dart';
 import '../../controller/provider_data.dart';
 import '../../model/models.dart';
 
@@ -34,7 +35,7 @@ class _DhirtaGuryahaScreenState extends State<DhirtaGuryahaScreen> {
           Padding(
             padding: const EdgeInsets.only(top: 12.0),
             child: Text(
-              "(${Provider.of<ProviderData>(context).getCartItems.length})",
+              "(${Provider.of<CartProvider>(context).getAllCarts.length})",
               style: TextStyle(color: Colors.black, fontSize: 22),
             ),
           ),
@@ -147,13 +148,11 @@ class _DhirtaGuryahaScreenState extends State<DhirtaGuryahaScreen> {
                                     ),
                                     IconButton(
                                         onPressed: () {
-                                          Provider.of<ProviderData>(context,
+                                          Provider.of<CartProvider>(context,
                                                   listen: false)
                                               .addToCart(
-                                                  insidePlants[index].imageUrl,
-                                                  insidePlants[index].name,
-                                                  insidePlants[index].price,
-                                                  insidePlants[index].type);
+                                            insidePlants[index],
+                                          );
                                         },
                                         icon: Icon(
                                           Icons.shopping_cart,

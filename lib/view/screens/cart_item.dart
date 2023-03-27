@@ -12,8 +12,10 @@ class CartItem extends StatefulWidget {
   final String imageUrl;
   final String name;
   final int price;
+  int quantity;
+  int index;
 
-  CartItem(this.imageUrl, this.name, this.price);
+  CartItem(this.imageUrl, this.name, this.price, this.quantity, this.index);
 
   @override
   State<CartItem> createState() => _CartItemState();
@@ -71,6 +73,10 @@ class _CartItemState extends State<CartItem> {
                       setState(() {
                         if (counter > 1) {
                           counter--;
+                          Provider.of<CartProvider>(context, listen: false)
+                              .decrementItem(Provider.of<CartProvider>(context,
+                                      listen: false)
+                                  .getAllCarts[widget.index]);
                         }
                       });
                     },
@@ -103,6 +109,10 @@ class _CartItemState extends State<CartItem> {
                     onTap: () {
                       setState(() {
                         counter++;
+                        Provider.of<CartProvider>(context, listen: false)
+                            .incrementItem(Provider.of<CartProvider>(context,
+                                    listen: false)
+                                .getAllCarts[widget.index]);
                       });
                     },
                     child: Container(

@@ -4,6 +4,7 @@ import 'package:dhir_app/view/screens/cart_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../controller/cart_provider.dart';
 import '../../controller/provider_data.dart';
 import '../../model/models.dart';
 
@@ -27,7 +28,7 @@ class DhirtaBanaankaScreen extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(top: 12.0),
             child: Text(
-              "(${Provider.of<ProviderData>(context).getCartItems.length})",
+              "(${Provider.of<CartProvider>(context).getAllCarts.length})",
               style: TextStyle(color: Colors.black, fontSize: 20),
             ),
           ),
@@ -140,13 +141,11 @@ class DhirtaBanaankaScreen extends StatelessWidget {
                                     ),
                                     IconButton(
                                         onPressed: () {
-                                          Provider.of<ProviderData>(context,
+                                          Provider.of<CartProvider>(context,
                                                   listen: false)
                                               .addToCart(
-                                                  outsidePlants[index].imageUrl,
-                                                  outsidePlants[index].name,
-                                                  outsidePlants[index].price,
-                                                  outsidePlants[index].type);
+                                            outsidePlants[index],
+                                          );
                                         },
                                         icon: Icon(
                                           Icons.shopping_cart,

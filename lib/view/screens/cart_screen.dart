@@ -33,19 +33,21 @@ class _CartScreenState extends State<CartScreen> {
             final data = Provider.of<CartProvider>(context).getAllCarts;
 
             // totalPrice += price!;
-
             return CartItem(
-              data[index].product.imageUrl,
-              data[index].product.name,
-              data[index].product.price,
-            );
+                data[index].product.imageUrl,
+                data[index].product.name,
+                data[index].product.price,
+                data[index].quantity,
+                index);
           }),
       bottomSheet: MaterialButton(
         onPressed: () async {
+          Provider.of<CartProvider>(context, listen: false).getTotalPrice();
+
           final Uri url = Uri(
             scheme: "tel",
-            path: "",
-            // "*712*618907483*${Provider.of<CartProvider>(context, listen: false)} #",
+            path:
+                "*712*618907483*${Provider.of<CartProvider>(context, listen: false).getTotalPrice()}#",
           );
 
           if (await canLaunchUrl(url)) {
@@ -65,7 +67,7 @@ class _CartScreenState extends State<CartScreen> {
         minWidth: double.infinity,
         color: Colors.green,
         child: Text(
-          "\$ HADDA IIBSO",
+          "\$${Provider.of<CartProvider>(context, listen: false).getTotalPrice()} HADDA IIBSO",
           style: TextStyle(
             fontSize: 30,
             color: Colors.white,
