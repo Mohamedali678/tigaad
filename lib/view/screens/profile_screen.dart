@@ -36,29 +36,52 @@ class ProfileScreen extends StatelessWidget {
                     child: Container(
                       width: double.infinity,
                       child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           SizedBox(
-                            height: 60,
+                            height: 120,
                           ),
                           CircleAvatar(
-                            radius: 50,
+                            radius: 55,
                             backgroundImage:
                                 AssetImage("assets/images/logo.png"),
                           ),
                           SizedBox(
                             height: 20,
                           ),
-                          Text(
-                            "${data["name"]}",
-                            style: TextStyle(fontSize: 20),
+                          Divider(
+                            thickness: 0.9,
+                          ),
+                          ListTile(
+                            leading: Icon(
+                              Icons.person,
+                              size: 30,
+                            ),
+                            title: Text(
+                              "${data["name"]}",
+                              style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
                           ),
                           SizedBox(
-                            height: 20,
+                            height: 10,
                           ),
-                          Text(
-                            "Taleefan: ${data["number"]}",
-                            style: TextStyle(fontSize: 20),
+                          Divider(
+                            thickness: 0.9,
+                            color: Colors.black,
+                          ),
+                          ListTile(
+                            leading: Icon(
+                              Icons.call,
+                              size: 30,
+                            ),
+                            title: Text(
+                              "${data["number"]}",
+                              style: TextStyle(fontSize: 20),
+                            ),
                           ),
                         ],
                       ),

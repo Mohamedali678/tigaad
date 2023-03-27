@@ -35,7 +35,7 @@ void main() async {
         theme: ThemeData(primarySwatch: Colors.green),
         debugShowCheckedModeBanner: false,
         navigatorObservers: [routeObserver],
-        home: BottomNavigationScreen(),
+        home: RegisterScreen(),
         // StreamBuilder<User?>(
         //   stream: _auth.authStateChanges(),
         //   builder: (BuildContext context, AsyncSnapshot<User?> snapshot) {

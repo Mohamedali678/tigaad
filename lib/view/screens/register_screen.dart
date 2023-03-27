@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dhir_app/controller/Firebase/auth.dart';
+import 'package:dhir_app/view/screens/bottom_nav_screen.dart';
 import 'package:dhir_app/view/screens/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
@@ -120,6 +121,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     nameController.text,
                     emailController.text,
                     phoneNumberController.text,
+                  );
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => BottomNavigationScreen(),
+                    ),
                   );
                   // aaa
                   // auth
