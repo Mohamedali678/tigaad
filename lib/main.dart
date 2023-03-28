@@ -35,26 +35,25 @@ void main() async {
         theme: ThemeData(primarySwatch: Colors.green),
         debugShowCheckedModeBanner: false,
         navigatorObservers: [routeObserver],
-        home: RegisterScreen(),
-        // StreamBuilder<User?>(
-        //   stream: _auth.authStateChanges(),
-        //   builder: (BuildContext context, AsyncSnapshot<User?> snapshot) {
-        //     if (snapshot.connectionState == ConnectionState.active) {
-        //       User? user = snapshot.data;
-        //       if (user == null) {
-        //         return RegisterScreen();
-        //       } else {
-        //         return BottomNavigationScreen();
-        //       }
-        //     } else {
-        //       return Scaffold(
-        //         body: Center(
-        //           child: CircularProgressIndicator(),
-        //         ),
-        //       );
-        //     }
-        //   },
-        // ),
+        home: StreamBuilder<User?>(
+          stream: _auth.authStateChanges(),
+          builder: (BuildContext context, AsyncSnapshot<User?> snapshot) {
+            if (snapshot.connectionState == ConnectionState.active) {
+              User? user = snapshot.data;
+              if (user == null) {
+                return RegisterScreen();
+              } else {
+                return BottomNavigationScreen();
+              }
+            } else {
+              return Scaffold(
+                body: Center(
+                  child: CircularProgressIndicator(),
+                ),
+              );
+            }
+          },
+        ),
       ),
     ),
   );

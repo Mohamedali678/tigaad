@@ -23,6 +23,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   TextEditingController _email = TextEditingController();
   TextEditingController _password = TextEditingController();
+  final _formkey = GlobalKey<FormState>();
 
   // String smsCode = '';
   // String verificationId = "";
@@ -90,131 +91,148 @@ class _LoginScreenState extends State<LoginScreen> {
         title: const Text("Login"),
       ),
       body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            SizedBox(
-              height: 30,
-            ),
+        child: Form(
+          key: _formkey,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              SizedBox(
+                height: 30,
+              ),
 
-            Image(
-              image: AssetImage("assets/images/logo.png"),
-            ),
+              Image(
+                image: AssetImage("assets/images/logo.png"),
+              ),
 
-            SizedBox(
-              height: 30,
-            ),
+              SizedBox(
+                height: 30,
+              ),
 
-            Row(
-              children: [
-                Expanded(
-                  child: Padding(
-                    padding: EdgeInsets.all(12.0),
-                    child: TextField(
-                      controller: _email,
-                      keyboardType: TextInputType.number,
-                      decoration: InputDecoration(
-                          prefixIcon: Icon(
-                            Icons.email,
-                            size: 40,
-                          ),
-                          hintText: "Email",
-                          fillColor: Color(0xffDFDCDD),
-                          filled: true,
-                          border: OutlineInputBorder(
-                              borderSide: BorderSide.none,
-                              borderRadius: BorderRadius.circular(8))),
+              Row(
+                children: [
+                  Expanded(
+                    child: Padding(
+                      padding: EdgeInsets.all(12.0),
+                      child: TextFormField(
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return 'Emailk-aaga Meeshaan buuxi';
+                          }
+                          return null;
+                        },
+                        controller: _email,
+                        keyboardType: TextInputType.emailAddress,
+                        decoration: InputDecoration(
+                            prefixIcon: Icon(
+                              Icons.email,
+                              size: 40,
+                            ),
+                            hintText: "Email",
+                            fillColor: Color(0xffDFDCDD),
+                            filled: true,
+                            border: OutlineInputBorder(
+                                borderSide: BorderSide.none,
+                                borderRadius: BorderRadius.circular(8))),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              // small boxes
+              Padding(
+                padding: EdgeInsets.all(12.0),
+                child: TextFormField(
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return 'Password-kaaga Meeshaan buuxi';
+                    }
+                    return null;
+                  },
+                  controller: _password,
+                  decoration: InputDecoration(
+                      prefixIcon: Icon(
+                        Icons.lock,
+                        size: 40,
+                      ),
+                      hintText: "Password",
+                      fillColor: Color(0xffDFDCDD),
+                      filled: true,
+                      border: OutlineInputBorder(
+                          borderSide: BorderSide.none,
+                          borderRadius: BorderRadius.circular(8))),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(12.0),
+                child: MaterialButton(
+                  onPressed: () {
+                    if (_formkey.currentState!.validate()) {
+                      _formkey.currentState!.save();
+                      Auth().logIn(_email.text, _password.text);
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => BottomNavigationScreen(),
+                        ),
+                      );
+                    }
+                  },
+                  height: 60,
+                  minWidth: double.infinity,
+                  color: Color(0xff64994A),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: Text(
+                    "Login",
+                    style: TextStyle(
+                      fontSize: 22,
+                      color: Colors.white,
                     ),
                   ),
                 ),
-              ],
-            ),
-            SizedBox(
-              height: 10,
-            ),
-// small boxes
-            Padding(
-              padding: EdgeInsets.all(12.0),
-              child: TextField(
-                controller: _password,
-                keyboardType: TextInputType.number,
-                decoration: InputDecoration(
-                    prefixIcon: Icon(
-                      Icons.lock,
-                      size: 40,
-                    ),
-                    hintText: "Password",
-                    fillColor: Color(0xffDFDCDD),
-                    filled: true,
-                    border: OutlineInputBorder(
-                        borderSide: BorderSide.none,
-                        borderRadius: BorderRadius.circular(8))),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(12.0),
-              child: MaterialButton(
+              TextButton(
                 onPressed: () {
-                  Auth().logIn(_email.text, _password.text);
-                  Navigator.pushReplacement(
+                  Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => BottomNavigationScreen(),
+                      builder: (context) => RegisterScreen(),
                     ),
                   );
                 },
-                height: 60,
-                minWidth: double.infinity,
-                color: Color(0xff64994A),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8),
-                ),
                 child: Text(
-                  "Login",
+                  "Register",
                   style: TextStyle(
-                    fontSize: 22,
-                    color: Colors.white,
+                    color: Color(0xff64994A),
+                    fontSize: 16,
                   ),
                 ),
               ),
-            ),
-            TextButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => RegisterScreen(),
+              TextButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ForgetPasswordScreen(),
+                    ),
+                  );
+                },
+                child: Text(
+                  "Forget Password",
+                  style: TextStyle(
+                    color: Color(0xff64994A),
+                    fontSize: 16,
                   ),
-                );
-              },
-              child: Text(
-                "Register",
-                style: TextStyle(
-                  color: Color(0xff64994A),
-                  fontSize: 16,
                 ),
               ),
-            ),
-            TextButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => ForgetPasswordScreen(),
-                  ),
-                );
-              },
-              child: Text(
-                "Forget Password",
-                style: TextStyle(
-                  color: Color(0xff64994A),
-                  fontSize: 16,
-                ),
-              ),
-            ),
 
-            // 2
-          ],
+              // 2
+            ],
+          ),
         ),
       ),
     );
