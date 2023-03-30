@@ -2,7 +2,8 @@
 
 ![dhir app](https://user-images.githubusercontent.com/88269367/217869158-1a4cb4ac-2d0c-4e6f-9170-317a97754ae1.png)
 ## What 
-Tigaad is a a mobile app where users can purchase trees to be planted in Somalia. A small fee will be charged for each tree, supporting the reforestation efforts. In addition, create social media campaigns to educate the public on the importance of tree planting and taking climate action.
+Tigaad is a mobile app for individuals to buy plants or donate trees to be planted in Somalia. This innovative app allows users to browse and select from various plant species that are native to the region.TIGAAD APP aims not only to restore vegetation but also contribute towards reducing climate change impacts such as droughts which have hit some regions heavily in recent past making people lose crops & livelihoods thus food insecurity heightening on top of already fragile socio-economic structure 
+With its mission of spreading greenery across Somalia and fighting against ecosystem degradation at large. TIGAAD APP  stands out as an excellent example of combining technology with social responsibility towards restoring ecosystems that make life possible on earth.
 
 
 ## Features
@@ -28,7 +29,7 @@ We used several packages including the following:
 11. shared_preferences
   
 
-
+### Installation
 To install Tigaad, download the repo and make pub get after that to install the required packages. Then run the app.
 
 ### Usage
