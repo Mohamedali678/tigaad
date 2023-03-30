@@ -76,8 +76,11 @@ class HomeScreen extends StatelessWidget {
               //   height: 180,
               // ),
               ImageSlideshow(
+                isLoop: true,
+
+                autoPlayInterval: 4000,
                 height: 190.0,
-                initialPage: 0,
+                // initialPage: 0,
                 children: images.map((image) {
                   return Builder(
                     builder: (BuildContext context) {

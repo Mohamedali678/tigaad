@@ -5,6 +5,7 @@ import 'package:dhir_app/view/screens/home_screen.dart';
 import 'package:dhir_app/view/screens/register_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import 'dart:developer';
 import '../../shared/constants.dart';
@@ -171,7 +172,22 @@ class _LoginScreenState extends State<LoginScreen> {
                   onPressed: () {
                     if (_formkey.currentState!.validate()) {
                       _formkey.currentState!.save();
-                      Auth().logIn(_email.text, _password.text);
+                      try {
+                        Auth().logIn(_email.text, _password.text);
+                      } on FirebaseAuthException catch (e) {
+                        // handle FirebaseAuthException
+                        if (e.code == 'user-not-found') {
+                          // user not found
+                        } else if (e.code == 'wrong-password') {
+                          // wrong password
+                        } else {
+                          // other FirebaseAuthException
+                        }
+                      } on PlatformException catch (e) {
+                        // handle PlatformException
+                      } catch (e) {
+                        // handle other exceptions
+                      }
                       Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
